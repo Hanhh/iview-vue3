@@ -11,23 +11,30 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              }
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
         loader: "url-loader",
-      },
-      {
-        test: /\.(html|tpl)$/,
-        loader: "html-loader",
       },
       {
         /*
@@ -54,20 +61,19 @@ module.exports = {
         */
         use: [
           {
-            loader: 'url-loader',
+            loader: "url-loader",
             options: {
-              limit: 8192
-            }
-          }
-        ]
+              limit: 8192,
+            },
+          },
+        ],
       },
-      
     ],
   },
   resolve: {
     extensions: [".js", ".vue", ".ts"],
     alias: {
-      vue: "vue/dist/vue.esm.js",
+      vue: "vue/dist/vue.esm-browser.prod.js",
       "@": resolve("src"),
     },
   },
@@ -76,6 +82,5 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.VERSION": `'${pkg.version}'`,
     }),
-    
   ],
 };
